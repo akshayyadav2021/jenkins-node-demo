@@ -62,13 +62,11 @@ pipeline {
         }
 
         stage('Deploy') {
-
             when {
                 branch 'main'
             }
 
             steps {
-
                 sh '''
                     set -e
 
@@ -90,15 +88,11 @@ pipeline {
                     npm ci --omit=dev
 
                     if [ -f "$DEPLOY_ROOT/app.pid" ]; then
-
                         OLD_PID=$(cat "$DEPLOY_ROOT/app.pid" || true)
 
                         if [ -n "$OLD_PID" ] && kill -0 "$OLD_PID" 2>/dev/null; then
-
                             echo "Stopping old application: $OLD_PID"
-
                             kill "$OLD_PID" || true
-
                             sleep 2
                         fi
                     fi
@@ -122,23 +116,20 @@ pipeline {
         }
 
         stage('Smoke Test') {
-
             when {
                 branch 'main'
-'
             }
 
             steps {
                 sh '''
                     sleep 2
-                    curl -f http://127.0.0.1:3000/health
+                    curl -f http://192.168.56.102:3000/health
                 '''
             }
         }
     }
 
     post {
-
         success {
             echo 'PIPELINE SUCCESSFUL'
         }
