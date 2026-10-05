@@ -62,10 +62,7 @@ pipeline {
         }
 
         stage('Deploy') {
-            when {
-                branch 'main'
-            }
-
+            
             steps {
                 sh '''
                     set -e
@@ -116,9 +113,6 @@ pipeline {
         }
 
         stage('Smoke Test') {
-            when {
-                branch 'main'
-            }
 
             steps {
                 sh '''
